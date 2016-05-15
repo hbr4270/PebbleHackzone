@@ -9,7 +9,7 @@ var debug = false;
 var Settings = require('settings');
 var myWork = require('myWork');
 var myGroupsUnassignedWork = require('myGroupsUnassignedWork');
-var reports = require('reports');
+var change = require('change');
 
 var Light = require('ui/light');
 Light.on();
@@ -26,7 +26,7 @@ var mainMenu = new UI.Menu({
     }, {
       title: 'Unassigned Work'
     }, {
-      title: 'Reports'
+      title: 'Upcoming Change'
     }]
   }]
 });
@@ -84,7 +84,7 @@ mainMenu.on('select', function(e) {
     myGroupsUnassignedWork.show(instance,encoded_auth,user_name);
   }
   else if(e.itemIndex===2){
-    reports.show(instance,encoded_auth,user_name);
+    change.show(instance,encoded_auth,user_name);
   }
   
 });

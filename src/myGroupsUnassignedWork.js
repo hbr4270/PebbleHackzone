@@ -76,6 +76,7 @@ var myGroupsUnassignedWork = {
  
       // Construct Menu to show to user
       var resultsMenu = new UI.Menu({
+        highlightBackgroundColor: 'red',
         sections: [{
           title: menuTitle,
           icon: 'images/icon.png',
@@ -128,22 +129,23 @@ var myGroupsUnassignedWork = {
       detailCard.on('click','select', function() { 
         
         var taskMenu = new UI.Menu({
+          highlightBackgroundColor: 'red',
           sections: [{
             title: 'Task Options',
             items: [{
-              title: 'Assign To Me'
+              title: 'Assign to Me'
             }]
           }]
         });
         
         taskMenu.show();
         
-        taskMenu.on('select', function(e2) {
+        taskMenu.on('select', function(e) {
           if(debug){
-            console.log('Selected item #' + e2.itemIndex + ' of section #' + e2.sectionIndex + " (selected sys_id: " + data.result[e.itemIndex].sys_id + ")");
-            console.log('The item is titled "' + e2.item.title + '"');
+            console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex + " (selected sys_id: " + data.result[e.itemIndex].sys_id + ")");
+            console.log('The item is titled "' + e.item.title + '"');
           }
-          if(e2.itemIndex===0){
+          if(e.itemIndex===0){
             //REST OPERATION to Assign Task and update comment
             var requestBody = {'assigned_to':user_name,'comments':user_name + ' accepted assignment via Pebble SmartWatch!'};
             ajax( {

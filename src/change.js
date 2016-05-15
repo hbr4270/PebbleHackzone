@@ -7,8 +7,8 @@ var error = require('error');
 var parseFeed = require('parseFeed');
 var ajax = require('ajax');
 var comments = require('comments');
-var menuTitle = "My Work";
-var myWork = {
+var menuTitle = "Change Request";
+var change = {
   show: function(instance,encoded_auth,user_name) {
     instance = Settings.option('instance');
     encoded_auth = Settings.option('encoded_auth');
@@ -57,7 +57,7 @@ var myWork = {
     }
   ajax(
     {
-      url:encodeURI('https://' + instance + '.service-now.com/api/now/table/task?sysparm_query=assigned_to.user_name=' + user_name + '^active=true'),
+      url:encodeURI('https://' + instance + '.service-now.com/api/now/table/change_request?'),
       method:'get',
       headers:{ Accept: 'application/json', Authorization: "Basic " + encoded_auth},
       type:'json'
@@ -126,137 +126,7 @@ var myWork = {
       
       
       detailCard.show();
-      
-      // Add an action for SELECT
-      detailCard.on('click','select', function() {
-        console.log('Select clicked!');
-        var taskMenu = new UI.Menu({
-          highlightBackgroundColor: 'red',
-          sections: [{
-            title: 'Task Options',
-            items: [{
-              title: 'Unassign'
-            }, {
-              title: 'Add Work Note'
-            }]
-          }]
-        });
-        taskMenu.show();
-        
-        taskMenu.on('select', function(e) {
-          //if(debug){
-            //console.log('Selected item #' + e2.itemIndex + ' of section #' + e2.sectionIndex + " (selected sys_id: " + data.result[e.itemIndex].sys_id + ")");
-            //console.log('The item is titled "' + e2.item.title + '"');
-          //}
-          if(e.itemIndex===0){
-            //REST OPERATION to Assign Task and update comment
-            var requestBody = {'assigned_to':'','comments':user_name + ' rejected assignment via Pebble SmartWatch!'};
-            ajax( {
-              url:'https://' + instance + '.service-now.com/api/now/table/task/' + data.result[e.itemIndex].sys_id,
-              method:'put',
-              headers:{ Accept: 'application/json', Authorization: "Basic " + encoded_auth},
-              type:'json',
-              data:requestBody
-            },
-            function(data) {
-              if(debug)
-                console.log("DEBUG data for task assignment: " + JSON.stringify(data, null, 4));
-                taskMenu.hide();
-                detailCard.hide();
-                resultsMenu.hide();
-            },
-            function(error) {
-              //handle error!
-              if(debug)
-                console.log('error retrieving task data: ' + JSON.stringify(error, null, 4));
-            });
-          }
-          else if(e.itemIndex==1){
-                var WNMenu = new UI.Menu({
-                highlightBackgroundColor: 'red',
-                sections: [{
-                  title: 'Add Work Note',
-                    items: [{
-                    title: 'En route to site'
-                    }, {
-                    title: 'Investigating issue'
-                    }, {
-                    title: 'Contacting SME'
-                    }]
-                  }]
-                });
-            
-                WNMenu.show();
-                WNMenu.on('select', function(e) {
-              if(debug){
-                console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex + " (selected sys_id: " + data.result[e.itemIndex].sys_id + ")");
-                console.log('The item is titled "' + e.item.title + '"');
-              }
     
-                //REST OPERATION to Add comment
-                var requestBody = {'comments':e.item.title};
-                ajax( {
-                  url:'https://' + instance + '.service-now.com/api/now/table/task/' + data.result[e.itemIndex].sys_id,
-                  method:'put',
-                  headers:{ Accept: 'application/json', Authorization: "Basic " + encoded_auth},
-                  type:'json',
-                  data:requestBody
-                },
-                function(data) {
-                  if(debug)
-                    console.log("DEBUG data for WN update: " + JSON.stringify(data, null, 4));
-                  WNMenu.hide();
-                  taskMenu.hide();
-                  detailCard.hide();
-                  resultsMenu.hide();
-                },
-                function(error) {
-                  //handle error!
-                  if(debug)
-                    console.log('error retrieving task data: ' + JSON.stringify(error, null, 4));
-                });
-              
-            });
-          }
-        });
-      
-      });
-      
-      
-      // Add an action for Shaking
-      // Register for 'tap' events
-     detailCard.on('accelTap', function() {
-          if(debug){
-            console.log('accelerometer');
-
-         }
-            //REST OPERATION to Assign Task and update comment
-            var requestBody = {'assigned_to':'','comments':user_name + ' rejected assignment via Pebble SmartWatch!'};
-            ajax( {
-              url:'https://' + instance + '.service-now.com/api/now/table/task/' + data.result[e.itemIndex].sys_id,
-              method:'put',
-              headers:{ Accept: 'application/json', Authorization: "Basic " + encoded_auth},
-              type:'json',
-              data:requestBody
-            },
-            function(data) {
-              if(debug)
-                console.log("DEBUG data for task assignment: " + JSON.stringify(data, null, 4));
-                detailCard.hide();
-                resultsMenu.hide();
-                //Send a long vibration to the user wrist
-              Vibe.vibrate('long');
-            },
-             function(error) {
-              //handle error!
-               if(debug)
-                console.log('error retrieving task data: ' + JSON.stringify(error, null, 4));
-              try{
-                splashWindow.hide();
-              }
-              catch(e){}
-            });
-        });
       
       
     });
@@ -287,4 +157,4 @@ var myWork = {
 }
 }
 };
-this.exports =  myWork;
+this.exports =  change;
