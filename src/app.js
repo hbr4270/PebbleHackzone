@@ -14,7 +14,7 @@ var change = require('change');
 var Light = require('ui/light');
 Light.on();
 
-var splashScreen = new UI.Card({ banner: 'images/icon.png' });
+var splashScreen = new UI.Card({ banner: 'images/large_logo' });
 splashScreen.show();
 
 var mainMenu = new UI.Menu({

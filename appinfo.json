@@ -30,6 +30,11 @@
                 "type": "font"
             },
             {
+                "file": "images/large_logo",
+                "name": "IMAGES_LARGE_LOGO",
+                "type": "bitmap"
+            },
+            {
                 "file": "images/icon.png",
                 "name": "IMAGES_ICON_PNG",
                 "type": "bitmap"
