@@ -143,12 +143,12 @@ var myWork = {
         });
         taskMenu.show();
         
-        taskMenu.on('select', function(e) {
+        taskMenu.on('select', function(e2) {
           //if(debug){
             //console.log('Selected item #' + e2.itemIndex + ' of section #' + e2.sectionIndex + " (selected sys_id: " + data.result[e.itemIndex].sys_id + ")");
             //console.log('The item is titled "' + e2.item.title + '"');
           //}
-          if(e.itemIndex===0){
+          if(e2.itemIndex===0){
             //REST OPERATION to Assign Task and update comment
             var requestBody = {'assigned_to':'','comments':user_name + ' rejected assignment via Pebble SmartWatch!'};
             ajax( {
@@ -171,7 +171,7 @@ var myWork = {
                 console.log('error retrieving task data: ' + JSON.stringify(error, null, 4));
             });
           }
-          else if(e.itemIndex==1){
+          else if(e2.itemIndex==1){
                 var WNMenu = new UI.Menu({
                 highlightBackgroundColor: 'red',
                 sections: [{
@@ -187,14 +187,14 @@ var myWork = {
                 });
             
                 WNMenu.show();
-                WNMenu.on('select', function(e) {
+                WNMenu.on('select', function(e3) {
               if(debug){
-                console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex + " (selected sys_id: " + data.result[e.itemIndex].sys_id + ")");
-                console.log('The item is titled "' + e.item.title + '"');
+                console.log('Selected item #' + e3.itemIndex + ' of section #' + e3.sectionIndex + " (selected sys_id: " + data.result[e.itemIndex].sys_id + ")");
+                console.log('The item is titled "' + e3.item.title + '"');
               }
     
                 //REST OPERATION to Add comment
-                var requestBody = {'comments':e.item.title};
+                var requestBody = {'comments':e3.item.title};
                 ajax( {
                   url:'https://' + instance + '.service-now.com/api/now/table/task/' + data.result[e.itemIndex].sys_id,
                   method:'put',
